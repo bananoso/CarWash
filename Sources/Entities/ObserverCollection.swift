@@ -10,19 +10,27 @@ import Foundation
 
 class ObserverCollection {
     
-    private typealias ObserverHandler = (observer: Observer, handler: F.EventHandler)
+    private typealias ObserverHandler = (observer: WeakObserver, handler: F.EventHandler)
     
     private var observers = [Int : ObserverHandler]()
     
+    private struct WeakObserver {
+        weak var value: Observer?
+    }
+    
     func add(observer: Observer, handler: @escaping F.EventHandler) {
-        self.observers.updateValue((observer, handler), forKey: observer.id)
+        self.observers.updateValue((WeakObserver(value: observer), handler), forKey: observer.id)
     }
     
     func remove(observer: Observer) {
         self.observers.removeValue(forKey: observer.id)
     }
     
-    func notifyAll(from sender: Any) {
-        self.observers.values.forEach { $0.handler(sender) }
+    func notifyAll(from sender: Observable) {
+        self.observers.forEach { key, observerHandler in
+            observerHandler.observer.value
+                .map {_ in observerHandler.handler(sender) }
+                .or { self.observers.removeValue(forKey: key) }
+        }
     }
 }
