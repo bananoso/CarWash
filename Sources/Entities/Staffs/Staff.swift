@@ -9,7 +9,7 @@
 import Foundation
 
 class Staff<ProcessingObject: MoneyGiver>: MoneyReceiver, MoneyGiver, Stateable, Observable {
-    
+
     enum Event: String {
         case onBusy
         case onAvailable
@@ -40,9 +40,9 @@ class Staff<ProcessingObject: MoneyGiver>: MoneyReceiver, MoneyGiver, Stateable,
     private let processingObjects = Queue<ProcessingObject>()
     private let dispatchQueue: DispatchQueue
     
-    private let busyObservers = ObserverCollection()
-    private let availableObservers = ObserverCollection()
-    private let pendingProcessingObservers = ObserverCollection()
+    private let busyObservers = WeakObserverCollection()
+    private let availableObservers = WeakObserverCollection()
+    private let pendingProcessingObservers = WeakObserverCollection()
     
     init(name: String, dispatchQueue: DispatchQueue = .background) {
         self.name = name
@@ -101,7 +101,13 @@ class Staff<ProcessingObject: MoneyGiver>: MoneyReceiver, MoneyGiver, Stateable,
         }
     }
     
-    private func executeFor(event: String, _ execute: (ObserverCollection) -> ()) {
+    func notify(event: String, sender: Observable) {
+        self.executeFor(event: event) {
+            $0.notifyAll(from: sender)
+        }
+    }
+    
+    private func executeFor(event: String, _ execute: (WeakObserverCollection) -> ()) {
         Event(rawValue: event).do {
             switch $0 {
             case .onBusy:
@@ -127,16 +133,18 @@ class Staff<ProcessingObject: MoneyGiver>: MoneyReceiver, MoneyGiver, Stateable,
     
     private func didSetState(old: State, new: State) {
         guard old != new else { return }
+    
+        let notify: (Event) -> () = { self.notify(event: $0.rawValue, sender: self) }
         
         switch new {
         case .available:
             self.nextProcessingObject()
                 .map(self.asyncDoWork)
-                .or { self.availableObservers.notifyAll(from: self) }
+                .or { notify(.onAvailable) }
         case .pendingProcessing:
-            self.pendingProcessingObservers.notifyAll(from: self)
+            notify(.onPendingProcessing)
         case .busy:
-            self.busyObservers.notifyAll(from: self)
+            notify(.onBusy)
         }
     }
     

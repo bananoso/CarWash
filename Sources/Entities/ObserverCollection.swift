@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ObserverCollection {
+class WeakObserverCollection {
     
     private typealias ObserverHandler = (observer: WeakObserver, handler: F.EventHandler)
     
@@ -19,7 +19,8 @@ class ObserverCollection {
     }
     
     func add(observer: Observer, handler: @escaping F.EventHandler) {
-        self.observers.updateValue((WeakObserver(value: observer), handler), forKey: observer.id)
+        let weakObserverHandler = (WeakObserver(value: observer), handler)
+        self.observers.updateValue(weakObserverHandler, forKey: observer.id)
     }
     
     func remove(observer: Observer) {

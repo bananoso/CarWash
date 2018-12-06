@@ -13,4 +13,6 @@ protocol Observable {
     func addObserver(_ observer: Observer, event: String, handler: @escaping F.EventHandler)
     
     func removeObserver(_ observer: Observer, event: String)
+    
+    func notify(event: String, sender: Observable)
 }
