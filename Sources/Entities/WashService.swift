@@ -43,15 +43,15 @@ class WashService: Observer {
         let accountant = self.accountant
         
         self.washers.value.forEach { washer in
-            washer.addPendingProcessing(observer: self) {_ in
+            washer.addObserver(self, event: Washer.Event.onPendingProcessing.rawValue) {_ in
                 accountant.asyncDoWork(with: washer)
             }
-            washer.addAvailable(observer: self) {_ in
+            washer.addObserver(self, event: Washer.Event.onAvailable.rawValue) {_ in
                 self.cars.dequeue().do(washer.asyncDoWork)
             }
         }
         
-        accountant.addPendingProcessing(observer: self) {_ in
+        accountant.addObserver(self, event: Accountant.Event.onPendingProcessing.rawValue) {_ in
             self.director.asyncDoWork(with: accountant)
         }
     }

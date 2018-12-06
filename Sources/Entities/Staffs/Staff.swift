@@ -8,8 +8,14 @@
 
 import Foundation
 
-class Staff<ProcessingObject: MoneyGiver>: MoneyReceiver, MoneyGiver, Stateable {
-
+class Staff<ProcessingObject: MoneyGiver>: MoneyReceiver, MoneyGiver, Stateable, Observable {
+    
+    enum Event: String {
+        case onBusy
+        case onAvailable
+        case onPendingProcessing
+    }
+    
     enum State {
         case available
         case pendingProcessing
@@ -68,16 +74,44 @@ class Staff<ProcessingObject: MoneyGiver>: MoneyReceiver, MoneyGiver, Stateable 
         }
     }
     
-    func addBusy(observer: Observer, handler: @escaping F.EventHandler) {
-        self.busyObservers.add(observer: observer, handler: handler)
+    // MoneyReceiver members
+    func receive(money: Int) {
+        self.atomicMoney.modify { $0 += money }
     }
     
-    func addAvailable(observer: Observer, handler: @escaping F.EventHandler) {
-        self.availableObservers.add(observer: observer, handler: handler)
+    // MoneyGiver members
+    func giveMoney() -> Int {
+        return self.atomicMoney.modify { money in
+            defer { money = 0 }
+            
+            return money
+        }
     }
     
-    func addPendingProcessing(observer: Observer, handler: @escaping F.EventHandler) {
-        self.pendingProcessingObservers.add(observer: observer, handler: handler)
+    // Observable members
+    func addObserver(_ observer: Observer, event: String, handler: @escaping F.EventHandler) {
+        self.executeFor(event: event) {
+            $0.add(observer: observer, handler: handler)
+        }
+    }
+    
+    func removeObserver(_ observer: Observer, event: String) {
+        self.executeFor(event: event) {
+            $0.remove(observer: observer)
+        }
+    }
+    
+    private func executeFor(event: String, _ execute: (ObserverCollection) -> ()) {
+        Event(rawValue: event).do {
+            switch $0 {
+            case .onBusy:
+                execute(self.busyObservers)
+            case .onAvailable:
+                execute(self.availableObservers)
+            case .onPendingProcessing:
+                execute(self.pendingProcessingObservers)
+            }
+        }
     }
     
     private func process(object: ProcessingObject) {
@@ -108,19 +142,5 @@ class Staff<ProcessingObject: MoneyGiver>: MoneyReceiver, MoneyGiver, Stateable 
     
     private func nextProcessingObject() -> ProcessingObject? {
         return self.processingObjects.dequeue()
-    }
-    
-    // MoneyReceiver members
-    func receive(money: Int) {
-        self.atomicMoney.modify { $0 += money }
-    }
-    
-    // MoneyGiver members
-    func giveMoney() -> Int {
-        return self.atomicMoney.modify { money in
-            defer { money = 0 }
-
-            return money
-        }
     }
 }
