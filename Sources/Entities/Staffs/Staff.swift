@@ -101,21 +101,21 @@ class Staff<ProcessingObject: MoneyGiver>: MoneyReceiver, MoneyGiver, Stateable,
         }
     }
     
-    func notify(event: String, sender: Observable) {
+    func notify(from sender: Observable, event: String) {
         self.executeFor(event: event) {
             $0.notifyAll(from: sender)
         }
     }
     
-    private func executeFor(event: String, _ execute: (WeakObserverCollection) -> ()) {
+    private func executeFor(event: String, _ handler: (WeakObserverCollection) -> ()) {
         Event(rawValue: event).do {
             switch $0 {
             case .onBusy:
-                execute(self.busyObservers)
+                handler(self.busyObservers)
             case .onAvailable:
-                execute(self.availableObservers)
+                handler(self.availableObservers)
             case .onPendingProcessing:
-                execute(self.pendingProcessingObservers)
+                handler(self.pendingProcessingObservers)
             }
         }
     }
@@ -134,7 +134,7 @@ class Staff<ProcessingObject: MoneyGiver>: MoneyReceiver, MoneyGiver, Stateable,
     private func didSetState(old: State, new: State) {
         guard old != new else { return }
     
-        let notify: (Event) -> () = { self.notify(event: $0.rawValue, sender: self) }
+        let notify: (Event) -> () = { self.notify(from: self, event: $0.rawValue) }
         
         switch new {
         case .available:

@@ -18,7 +18,7 @@ enum F {
     
     typealias Predicate<Value> = (Value) -> Bool
     
-    typealias EventHandler = (Any) -> ()
+    typealias EventHandler = (Observable) -> ()
 }
 
 func when<Result>(_ condition: Bool, execute: () -> Result) -> Result? {

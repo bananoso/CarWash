@@ -14,5 +14,5 @@ protocol Observable {
     
     func removeObserver(_ observer: Observer, event: String)
     
-    func notify(event: String, sender: Observable)
+    func notify(from sender: Observable, event: String)
 }
