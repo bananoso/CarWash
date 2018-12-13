@@ -19,13 +19,13 @@ class Employee<ProcessingObject: MoneyGiver>: Staff {
         super.init(name: name)
     }
     
-    override func stateDidSet(_ stateTuple: (old: Staff.State, new: Staff.State)) {
-        if stateTuple.new == .available {
+    override func stateDidSet(_ state: StatePair) {
+        if state.new == .available {
             self.processingObjects.dequeue()
                 .map(self.asyncDoWork)
-                .ifNil { super.stateDidSet(stateTuple) }
+                .ifNil { super.stateDidSet(state) }
         } else {
-            super.stateDidSet(stateTuple)
+            super.stateDidSet(state)
         }
     }
     

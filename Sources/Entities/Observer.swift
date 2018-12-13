@@ -14,7 +14,7 @@ class Observer<Value> {
         return self.sender != nil
     }
     
-    weak var sender: AnyObject?
+    weak private(set) var sender: AnyObject?
     let handler: F.EventHandler<Value>
     
     init(sender: AnyObject, handler: @escaping F.EventHandler<Value>) {

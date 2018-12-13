@@ -44,6 +44,8 @@ class WashService {
     }
     
     private func signObservers() {
+        let observers = self.observers
+        
         self.washers.value.forEach { washer in
             let observer = washer.observer { [weak self, weak washer] in
                 switch $0 {
@@ -53,9 +55,8 @@ class WashService {
                 }
             }
             
-            self.observers.add(observer)
+            observers.add(observer)
         }
-        
         
         let observer = self.accountant.observer { [weak self] in
             if $0 == .pendingProcessing {
@@ -63,6 +64,6 @@ class WashService {
             }
         }
         
-        self.observers.add(observer)
+        observers.add(observer)
     }
 }

@@ -181,11 +181,11 @@
 			isa = PBXGroup;
 			children = (
 				3F1FE53C21ABE7A400EAC2F8 /* Staff.swift */,
+				3FF0022921C2471B00612D2D /* Employee.swift */,
 				3F1FE53A21ABE7A400EAC2F8 /* Manager.swift */,
 				3F1FE53B21ABE7A400EAC2F8 /* Washer.swift */,
 				3F1FE53D21ABE7A400EAC2F8 /* Аccountant.swift */,
 				3F1FE53E21ABE7A400EAC2F8 /* Director.swift */,
-				3FF0022921C2471B00612D2D /* Employee.swift */,
 			);
 			path = Staffs;
 			sourceTree = "<group>";

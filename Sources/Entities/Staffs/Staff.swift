@@ -10,7 +10,7 @@ import Foundation
 
 class Staff: MoneyReceiver, MoneyGiver, Stateable {
     
-    typealias DidSetHandler = ((old: State, new: State))-> ()
+    typealias StatePair = (old: State, new: State)
     
     enum State {
         case available
@@ -28,6 +28,7 @@ class Staff: MoneyReceiver, MoneyGiver, Stateable {
     }
     
     let name: String
+    
     private(set) var atomicState: Atomic<State>!
     
     private let stateObservers = ObserverCollection<State>()
@@ -38,8 +39,8 @@ class Staff: MoneyReceiver, MoneyGiver, Stateable {
         self.atomicState = Atomic(.available, didSet: self.didSet)
     }
     
-    open func stateDidSet(_ stateTuple: (old: State, new: State)) {
-        self.stateObservers.notify(value: stateTuple.new)
+    open func stateDidSet(_ state: StatePair) {
+        self.stateObservers.notify(value: state.new)
     }
     
     // MoneyReceiver members
@@ -64,10 +65,10 @@ class Staff: MoneyReceiver, MoneyGiver, Stateable {
         return observer
     }
     
-    private func didSet(_ stateTuple: (old: State, new: State)) {
-        let (old, new) = stateTuple
+    private func didSet(_ state: StatePair) {
+        let (old, new) = state
         guard old != new else { return }
         
-        self.stateDidSet(stateTuple)
+        self.stateDidSet(state)
     }
 }
