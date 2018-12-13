@@ -8,10 +8,14 @@
 
 import Foundation
 
-class Observer<Value> {
-    
+class Observer<Value>: Hashable {
+
     public var isObserving: Bool {
         return self.sender != nil
+    }
+    
+    public var hashValue: Int {
+        return ObjectIdentifier(self).hashValue
     }
     
     weak private(set) var sender: AnyObject?
@@ -24,5 +28,9 @@ class Observer<Value> {
     
     func cancel() {
         self.sender = nil
+    }
+    
+    static func == (lhs: Observer<Value>, rhs: Observer<Value>) -> Bool {
+        return lhs === rhs
     }
 }
