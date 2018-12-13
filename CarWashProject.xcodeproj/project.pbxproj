@@ -30,6 +30,7 @@
 		3F1FE55621ABE7A400EAC2F8 /* Director.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FE53E21ABE7A400EAC2F8 /* Director.swift */; };
 		3F1FE55721ABE7A400EAC2F8 /* WashService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FE53F21ABE7A400EAC2F8 /* WashService.swift */; };
 		3F508B8221B81D56000E1680 /* ObserverCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F508B8121B81D56000E1680 /* ObserverCollection.swift */; };
+		3FF0022A21C2471B00612D2D /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF0022921C2471B00612D2D /* Employee.swift */; };
 		3FF7434621C1522B004D246C /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF7434521C1522B004D246C /* Observer.swift */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +71,7 @@
 		3F1FE53E21ABE7A400EAC2F8 /* Director.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Director.swift; sourceTree = "<group>"; };
 		3F1FE53F21ABE7A400EAC2F8 /* WashService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WashService.swift; sourceTree = "<group>"; };
 		3F508B8121B81D56000E1680 /* ObserverCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverCollection.swift; sourceTree = "<group>"; };
+		3FF0022921C2471B00612D2D /* Employee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
 		3FF7434521C1522B004D246C /* Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -183,6 +185,7 @@
 				3F1FE53B21ABE7A400EAC2F8 /* Washer.swift */,
 				3F1FE53D21ABE7A400EAC2F8 /* Аccountant.swift */,
 				3F1FE53E21ABE7A400EAC2F8 /* Director.swift */,
+				3FF0022921C2471B00612D2D /* Employee.swift */,
 			);
 			path = Staffs;
 			sourceTree = "<group>";
@@ -262,6 +265,7 @@
 				3F1FE54821ABE7A400EAC2F8 /* DispatchTime+Extensions.swift in Sources */,
 				3F1FE55321ABE7A400EAC2F8 /* Washer.swift in Sources */,
 				3F1FE54321ABE7A400EAC2F8 /* Queue.swift in Sources */,
+				3FF0022A21C2471B00612D2D /* Employee.swift in Sources */,
 				3F1FE55021ABE7A400EAC2F8 /* Car.swift in Sources */,
 				3F1FE54721ABE7A400EAC2F8 /* RangeReplaceableCollection+Extension.swift in Sources */,
 				3F1FE54A21ABE7A400EAC2F8 /* NSLocking+Extensions.swift in Sources */,

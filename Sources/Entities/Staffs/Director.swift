@@ -9,11 +9,11 @@
 import Foundation
 
 class Director: Manager<Accountant> {
-    
+
     override func doWork(with processingObject: Accountant) {
         self.receiveMoney(from: processingObject)
     }
-    
+
     override func finishWork() {
         self.state = .available
         print("Director have \(self.money)")

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Manager<ProcessingObject: MoneyGiver & Stateable>: Staff<ProcessingObject> {
+class Manager<ProcessingObject: MoneyGiver & Stateable>: Employee<ProcessingObject> {
     
     override func doWork(with processingObject: ProcessingObject) {
         self.receiveMoney(from: processingObject)
