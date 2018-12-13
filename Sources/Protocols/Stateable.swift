@@ -10,7 +10,5 @@ import Foundation
 
 protocol Stateable: class {
     
-    associatedtype ProcessingObject: MoneyGiver
-    
-    var state: Staff<ProcessingObject>.State { get set }
+    var state: Staff.State { get set }
 }

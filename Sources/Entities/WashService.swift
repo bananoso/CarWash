@@ -8,22 +8,26 @@
 
 import Foundation
 
-class WashService: Observer {
-    
-    let id: Int
+class WashService {
     
     private let washers: Atomic<[Washer]>
     private let director: Director
     private let accountant: Accountant
     private let cars = Queue<Car>()
     
+    private let observers = ObserverCollection<Staff.State>()
+    
+    deinit {
+        self.observers.forEach {
+            $0.cancel()
+        }
+    }
+    
     init(
-        id: Int,
         washers: [Washer],
         director: Director,
         accountant: Accountant
     ) {
-        self.id = id
         self.washers = Atomic(washers)
         self.director = director
         self.accountant = accountant
@@ -35,24 +39,30 @@ class WashService: Observer {
         self.washers.transform {
             $0.first { $0.state == .available }
                 .map { $0.asyncDoWork(with: car) }
-                .or { self.cars.enqueue(car) }
+                .ifNil { self.cars.enqueue(car) }
         }
     }
     
     private func signObservers() {
-        let accountant = self.accountant
-        
         self.washers.value.forEach { washer in
-            washer.addObserver(self, event: Washer.Event.onPendingProcessing.rawValue) {_ in
-                accountant.asyncDoWork(with: washer)
+            let observer = washer.observer { [weak self, weak washer] in
+                switch $0 {
+                case .available: self?.cars.dequeue().apply(washer?.asyncDoWork)
+                case .pendingProcessing: washer.apply(self?.accountant.asyncDoWork)
+                case .busy: return
+                }
             }
-            washer.addObserver(self, event: Washer.Event.onAvailable.rawValue) {_ in
-                self.cars.dequeue().do(washer.asyncDoWork)
+            
+            self.observers.add(observer)
+        }
+        
+        
+        let observer = self.accountant.observer { [weak self] in
+            if $0 == .pendingProcessing {
+                (self?.accountant).apply(self?.director.asyncDoWork)
             }
         }
         
-        accountant.addObserver(self, event: Accountant.Event.onPendingProcessing.rawValue) {_ in
-            self.director.asyncDoWork(with: accountant)
-        }
+        self.observers.add(observer)
     }
 }

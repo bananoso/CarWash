@@ -8,13 +8,9 @@
 
 import Foundation
 
-class Staff<ProcessingObject: MoneyGiver>: MoneyReceiver, MoneyGiver, Stateable, Observable {
-
-    enum Event: String {
-        case onBusy
-        case onAvailable
-        case onPendingProcessing
-    }
+class Staff: MoneyReceiver, MoneyGiver, Stateable {
+    
+    typealias DidSetHandler = ((old: State, new: State))-> ()
     
     enum State {
         case available
@@ -22,56 +18,28 @@ class Staff<ProcessingObject: MoneyGiver>: MoneyReceiver, MoneyGiver, Stateable,
         case busy
     }
     
+    public var money: Int {
+        return self.atomicMoney.value
+    }
+    
     public var state: State {
         get { return self.atomicState.value }
         set { self.atomicState.value = newValue }
     }
     
-    public var money: Int {
-        return self.atomicMoney.value
-    }
-    
-    private var atomicState: Atomic<State>!
-    
     let name: String
+    private(set) var atomicState: Atomic<State>!
     
-    private let rangeDuration = 0.1...1.0
+    private let stateObservers = ObserverCollection<State>()
     private let atomicMoney = Atomic(0)
-    private let processingObjects = Queue<ProcessingObject>()
-    private let dispatchQueue: DispatchQueue
     
-    private let busyObservers = WeakObserverCollection()
-    private let availableObservers = WeakObserverCollection()
-    private let pendingProcessingObservers = WeakObserverCollection()
-    
-    init(name: String, dispatchQueue: DispatchQueue = .background) {
+    init(name: String) {
         self.name = name
-        self.dispatchQueue = dispatchQueue
-        
-        self.atomicState = Atomic(State.available, didSet: self.didSetState)
+        self.atomicState = Atomic(.available, didSet: self.didSet)
     }
     
-    open func doWork(with processingObject: ProcessingObject) {
-        
-    }
-    
-    open func finishProcessing(object: ProcessingObject) {
-        
-    }
-    
-    open func finishWork() {
-
-    }
-    
-    func asyncDoWork(with object: ProcessingObject) {
-        self.atomicState.modify {
-            if $0 == .available {
-                $0 = .busy
-                self.process(object: object)
-            } else {
-                self.processingObjects.enqueue(object)
-            }
-        }
+    open func stateDidSet(_ stateTuple: (old: State, new: State)) {
+        self.stateObservers.notify(value: stateTuple.new)
     }
     
     // MoneyReceiver members
@@ -88,67 +56,18 @@ class Staff<ProcessingObject: MoneyGiver>: MoneyReceiver, MoneyGiver, Stateable,
         }
     }
     
-    // Observable members
-    func addObserver(_ observer: Observer, event: String, handler: @escaping F.EventHandler) {
-        self.executeFor(event: event) {
-            $0.add(observer: observer, handler: handler)
-        }
+    func observer(handler: @escaping F.EventHandler<State>) -> Observer<State> {
+        let observer = Observer(sender: self, handler: handler)
+        self.stateObservers.add(observer)
+        observer.handler(self.state)
+    
+        return observer
     }
     
-    func removeObserver(_ observer: Observer, event: String) {
-        self.executeFor(event: event) {
-            $0.remove(observer: observer)
-        }
-    }
-    
-    func notify(from sender: Observable, event: String) {
-        self.executeFor(event: event) {
-            $0.notifyAll(from: sender)
-        }
-    }
-    
-    private func executeFor(event: String, _ handler: (WeakObserverCollection) -> ()) {
-        Event(rawValue: event).do {
-            switch $0 {
-            case .onBusy:
-                handler(self.busyObservers)
-            case .onAvailable:
-                handler(self.availableObservers)
-            case .onPendingProcessing:
-                handler(self.pendingProcessingObservers)
-            }
-        }
-    }
-    
-    private func process(object: ProcessingObject) {
-        self.dispatchQueue.asyncAfter(deadline: .after(interval: .random(in: self.rangeDuration))) {
-            self.doWork(with: object)
-            self.finishProcessing(object: object)
-            
-            self.nextProcessingObject()
-                .map(self.process)
-                .or(self.finishWork)
-        }
-    }
-    
-    private func didSetState(old: State, new: State) {
+    private func didSet(_ stateTuple: (old: State, new: State)) {
+        let (old, new) = stateTuple
         guard old != new else { return }
-    
-        let notify: (Event) -> () = { self.notify(from: self, event: $0.rawValue) }
         
-        switch new {
-        case .available:
-            self.nextProcessingObject()
-                .map(self.asyncDoWork)
-                .or { notify(.onAvailable) }
-        case .pendingProcessing:
-            notify(.onPendingProcessing)
-        case .busy:
-            notify(.onBusy)
-        }
-    }
-    
-    private func nextProcessingObject() -> ProcessingObject? {
-        return self.processingObjects.dequeue()
+        self.stateDidSet(stateTuple)
     }
 }

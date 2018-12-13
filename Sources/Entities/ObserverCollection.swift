@@ -8,30 +8,24 @@
 
 import Foundation
 
-class WeakObserverCollection {
+class ObserverCollection<Value> {
     
-    private typealias ObserverHandler = (observer: WeakObserver, handler: F.EventHandler)
+    private let observers = Atomic([Observer<Value>]())
     
-    private var observers = [Int : ObserverHandler]()
-    
-    private struct WeakObserver {
-        weak var value: Observer?
+    func add(_ observer: Observer<Value>) {
+        self.observers.modify { $0.append(observer) }
     }
     
-    func add(observer: Observer, handler: @escaping F.EventHandler) {
-        let weakObserverHandler = (WeakObserver(value: observer), handler)
-        self.observers.updateValue(weakObserverHandler, forKey: observer.id)
+    func notify(value: Value) {
+        self.observers.modify {
+            $0 = $0.filter { $0.isObserving }
+            $0.forEach { $0.handler(value) }
+        }
     }
     
-    func remove(observer: Observer) {
-        self.observers.removeValue(forKey: observer.id)
-    }
-    
-    func notifyAll(from sender: Observable) {
-        self.observers.forEach { key, observerHandler in
-            observerHandler.observer.value
-                .map {_ in observerHandler.handler(sender) }
-                .or { self.observers.removeValue(forKey: key) }
+    func forEach(_ body: (Observer<Value>) -> ()) {
+        self.observers.transform {
+            $0.forEach(body)
         }
     }
 }

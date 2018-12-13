@@ -30,8 +30,8 @@
 		3F1FE55621ABE7A400EAC2F8 /* Director.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FE53E21ABE7A400EAC2F8 /* Director.swift */; };
 		3F1FE55721ABE7A400EAC2F8 /* WashService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FE53F21ABE7A400EAC2F8 /* WashService.swift */; };
 		3F508B8221B81D56000E1680 /* ObserverCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F508B8121B81D56000E1680 /* ObserverCollection.swift */; };
-		3F67C84C21B912C9009615AB /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F67C84B21B912C9009615AB /* Observer.swift */; };
-		3F67C85221B92563009615AB /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F67C85121B92563009615AB /* Observable.swift */; };
+		3FF0022A21C2471B00612D2D /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF0022921C2471B00612D2D /* Employee.swift */; };
+		3FF7434621C1522B004D246C /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF7434521C1522B004D246C /* Observer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -71,8 +71,8 @@
 		3F1FE53E21ABE7A400EAC2F8 /* Director.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Director.swift; sourceTree = "<group>"; };
 		3F1FE53F21ABE7A400EAC2F8 /* WashService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WashService.swift; sourceTree = "<group>"; };
 		3F508B8121B81D56000E1680 /* ObserverCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverCollection.swift; sourceTree = "<group>"; };
-		3F67C84B21B912C9009615AB /* Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
-		3F67C85121B92563009615AB /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		3FF0022921C2471B00612D2D /* Employee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
+		3FF7434521C1522B004D246C /* Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,8 +152,6 @@
 				3F1FE53321ABE7A400EAC2F8 /* Stateable.swift */,
 				3F1FE53221ABE7A400EAC2F8 /* MoneyReceiver.swift */,
 				3F1FE53421ABE7A400EAC2F8 /* MoneyGiver.swift */,
-				3F67C84B21B912C9009615AB /* Observer.swift */,
-				3F67C85121B92563009615AB /* Observable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -163,6 +161,7 @@
 			children = (
 				3F1FE53821ABE7A400EAC2F8 /* CarFactory.swift */,
 				3F1FE53F21ABE7A400EAC2F8 /* WashService.swift */,
+				3FF7434521C1522B004D246C /* Observer.swift */,
 				3F508B8121B81D56000E1680 /* ObserverCollection.swift */,
 				3F1FE53921ABE7A400EAC2F8 /* Staffs */,
 				3F1FE53621ABE7A400EAC2F8 /* Customers */,
@@ -186,6 +185,7 @@
 				3F1FE53B21ABE7A400EAC2F8 /* Washer.swift */,
 				3F1FE53D21ABE7A400EAC2F8 /* Аccountant.swift */,
 				3F1FE53E21ABE7A400EAC2F8 /* Director.swift */,
+				3FF0022921C2471B00612D2D /* Employee.swift */,
 			);
 			path = Staffs;
 			sourceTree = "<group>";
@@ -248,7 +248,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F1FE55721ABE7A400EAC2F8 /* WashService.swift in Sources */,
-				3F67C84C21B912C9009615AB /* Observer.swift in Sources */,
+				3FF7434621C1522B004D246C /* Observer.swift in Sources */,
 				3F1FE55521ABE7A400EAC2F8 /* Аccountant.swift in Sources */,
 				3F1FE54F21ABE7A400EAC2F8 /* MoneyGiver.swift in Sources */,
 				3F1FE54221ABE7A400EAC2F8 /* F.swift in Sources */,
@@ -258,7 +258,6 @@
 				3F1FE54921ABE7A400EAC2F8 /* Timer+Extensions.swift in Sources */,
 				3F1FE55221ABE7A400EAC2F8 /* Manager.swift in Sources */,
 				3F1FE54D21ABE7A400EAC2F8 /* MoneyReceiver.swift in Sources */,
-				3F67C85221B92563009615AB /* Observable.swift in Sources */,
 				3F1FE55121ABE7A400EAC2F8 /* CarFactory.swift in Sources */,
 				3F1FE54621ABE7A400EAC2F8 /* DispatchQueue+Extensions.swift in Sources */,
 				3F1FE54521ABE7A400EAC2F8 /* main.swift in Sources */,
@@ -266,6 +265,7 @@
 				3F1FE54821ABE7A400EAC2F8 /* DispatchTime+Extensions.swift in Sources */,
 				3F1FE55321ABE7A400EAC2F8 /* Washer.swift in Sources */,
 				3F1FE54321ABE7A400EAC2F8 /* Queue.swift in Sources */,
+				3FF0022A21C2471B00612D2D /* Employee.swift in Sources */,
 				3F1FE55021ABE7A400EAC2F8 /* Car.swift in Sources */,
 				3F1FE54721ABE7A400EAC2F8 /* RangeReplaceableCollection+Extension.swift in Sources */,
 				3F1FE54A21ABE7A400EAC2F8 /* NSLocking+Extensions.swift in Sources */,

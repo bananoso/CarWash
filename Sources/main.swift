@@ -12,7 +12,7 @@ let washers = (0...3).map { Washer(name: "Ivan\($0)") }
 let director = Director(name: "Petro")
 let accountant = Accountant(name: "Alex")
 
-let washService = WashService(id: 0, washers: washers, director: director, accountant: accountant)
+let washService = WashService(washers: washers, director: director, accountant: accountant)
 
 let factory = CarFactory(for: washService)
 factory.start()
