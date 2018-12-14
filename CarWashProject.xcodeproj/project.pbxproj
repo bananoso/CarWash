@@ -31,6 +31,8 @@
 		3F1FE55721ABE7A400EAC2F8 /* WashService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FE53F21ABE7A400EAC2F8 /* WashService.swift */; };
 		3F60DDA621C39872002F2E2A /* ObservableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F60DDA521C39872002F2E2A /* ObservableObject.swift */; };
 		3FF0022A21C2471B00612D2D /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF0022921C2471B00612D2D /* Employee.swift */; };
+		3FFF6B5321C3EEE9003ADA0C /* ObservableObject+Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF6B5221C3EEE9003ADA0C /* ObservableObject+Observer.swift */; };
+		3FFF6B5521C3EF21003ADA0C /* ObservableObject+Observers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF6B5421C3EF21003ADA0C /* ObservableObject+Observers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -71,6 +73,8 @@
 		3F1FE53F21ABE7A400EAC2F8 /* WashService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WashService.swift; sourceTree = "<group>"; };
 		3F60DDA521C39872002F2E2A /* ObservableObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableObject.swift; sourceTree = "<group>"; };
 		3FF0022921C2471B00612D2D /* Employee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
+		3FFF6B5221C3EEE9003ADA0C /* ObservableObject+Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObservableObject+Observer.swift"; sourceTree = "<group>"; };
+		3FFF6B5421C3EF21003ADA0C /* ObservableObject+Observers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObservableObject+Observers.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +130,8 @@
 			isa = PBXGroup;
 			children = (
 				3F1FE52921ABE7A400EAC2F8 /* Foundation */,
+				3FFF6B5221C3EEE9003ADA0C /* ObservableObject+Observer.swift */,
+				3FFF6B5421C3EF21003ADA0C /* ObservableObject+Observers.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -250,6 +256,7 @@
 				3F1FE54221ABE7A400EAC2F8 /* F.swift in Sources */,
 				3F1FE54E21ABE7A400EAC2F8 /* Stateable.swift in Sources */,
 				3F1FE54B21ABE7A400EAC2F8 /* Optional+Extensions.swift in Sources */,
+				3FFF6B5521C3EF21003ADA0C /* ObservableObject+Observers.swift in Sources */,
 				3F1FE54921ABE7A400EAC2F8 /* Timer+Extensions.swift in Sources */,
 				3F60DDA621C39872002F2E2A /* ObservableObject.swift in Sources */,
 				3F1FE55221ABE7A400EAC2F8 /* Manager.swift in Sources */,
@@ -267,6 +274,7 @@
 				3F1FE54A21ABE7A400EAC2F8 /* NSLocking+Extensions.swift in Sources */,
 				3F1FE55621ABE7A400EAC2F8 /* Director.swift in Sources */,
 				3F1FE54C21ABE7A400EAC2F8 /* Strideable+Extensions.swift in Sources */,
+				3FFF6B5321C3EEE9003ADA0C /* ObservableObject+Observer.swift in Sources */,
 				3F1FE54421ABE7A400EAC2F8 /* Atomic.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
