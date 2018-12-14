@@ -8,16 +8,16 @@
 
 import Foundation
 
-class ObservableObject<Value> {
+class ObservableObject<Property> {
     
-    typealias Handler = (Value) -> ()
+    typealias Handler = (Property) -> ()
     
-    private let observers = Observers()
+    let observers = Observers()
     
-    func observer(value: Value, handler: @escaping Handler) -> Observer {
+    func observer(property: Property, handler: @escaping Handler) -> Observer {
         let observer = Observer(sender: self, handler: handler)
         self.observers.add(observer)
-        observer.handler(value)
+        observer.handler(property)
         
         return observer
     }

@@ -15,13 +15,7 @@ class WashService {
     private let accountant: Accountant
     private let cars = Queue<Car>()
     
-    private let observers = ObserverCollection<Staff.State>()
-    
-    deinit {
-        self.observers.forEach {
-            $0.cancel()
-        }
-    }
+    private let observers = Staff.Observers()
     
     init(
         washers: [Washer],
@@ -45,20 +39,19 @@ class WashService {
     
     private func signObservers() {
         let observers = self.observers
+        let washers = self.washers.value
         
-        self.washers.value.forEach { washer in
-            let observer = washer.observer { [weak self, weak washer] in
+        observers += washers.map { washer in
+            washer.observer(property: .available) { [weak self] in
                 switch $0 {
-                case .available: self?.cars.dequeue().apply(washer?.asyncDoWork)
-                case .pendingProcessing: washer.apply(self?.accountant.asyncDoWork)
+                case .available: self?.cars.dequeue().apply(washer.asyncDoWork)
+                case .pendingProcessing: self?.accountant.asyncDoWork(with: washer)
                 case .busy: return
                 }
             }
-            
-            observers.add(observer)
         }
         
-        let observer = self.accountant.observer { [weak self] in
+        let observer = self.accountant.observer(property: .available) { [weak self] in
             if $0 == .pendingProcessing {
                 (self?.accountant).apply(self?.director.asyncDoWork)
             }
