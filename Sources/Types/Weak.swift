@@ -12,6 +12,10 @@ struct Weak<Wrapped: AnyObject> {
     
     private(set) weak var value: Wrapped?
     
+    init(_ value: Wrapped) {
+        self.value = value
+    }
+    
     func strongify<Result>(_ transform: (Wrapped) -> Result?) -> Result? {
         return self.value.flatMap(transform)
     }
