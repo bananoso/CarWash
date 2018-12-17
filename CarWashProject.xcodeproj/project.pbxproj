@@ -29,6 +29,7 @@
 		3F1FE55521ABE7A400EAC2F8 /* Аccountant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FE53D21ABE7A400EAC2F8 /* Аccountant.swift */; };
 		3F1FE55621ABE7A400EAC2F8 /* Director.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FE53E21ABE7A400EAC2F8 /* Director.swift */; };
 		3F1FE55721ABE7A400EAC2F8 /* WashService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FE53F21ABE7A400EAC2F8 /* WashService.swift */; };
+		3F2D83E121C7CD6A00E32521 /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F2D83E021C7CD6A00E32521 /* Weak.swift */; };
 		3F508B8221B81D56000E1680 /* ObserverCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F508B8121B81D56000E1680 /* ObserverCollection.swift */; };
 		3FF0022A21C2471B00612D2D /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF0022921C2471B00612D2D /* Employee.swift */; };
 		3FF7434621C1522B004D246C /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF7434521C1522B004D246C /* Observer.swift */; };
@@ -70,6 +71,7 @@
 		3F1FE53D21ABE7A400EAC2F8 /* Аccountant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Аccountant.swift"; sourceTree = "<group>"; };
 		3F1FE53E21ABE7A400EAC2F8 /* Director.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Director.swift; sourceTree = "<group>"; };
 		3F1FE53F21ABE7A400EAC2F8 /* WashService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WashService.swift; sourceTree = "<group>"; };
+		3F2D83E021C7CD6A00E32521 /* Weak.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weak.swift; sourceTree = "<group>"; };
 		3F508B8121B81D56000E1680 /* ObserverCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverCollection.swift; sourceTree = "<group>"; };
 		3FF0022921C2471B00612D2D /* Employee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
 		3FF7434521C1522B004D246C /* Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 				3F1FE52321ABE7A400EAC2F8 /* F.swift */,
 				3F1FE52421ABE7A400EAC2F8 /* Queue.swift */,
 				3F1FE52521ABE7A400EAC2F8 /* Atomic.swift */,
+				3F2D83E021C7CD6A00E32521 /* Weak.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				3F1FE55721ABE7A400EAC2F8 /* WashService.swift in Sources */,
 				3FF7434621C1522B004D246C /* Observer.swift in Sources */,
 				3F1FE55521ABE7A400EAC2F8 /* Аccountant.swift in Sources */,
+				3F2D83E121C7CD6A00E32521 /* Weak.swift in Sources */,
 				3F1FE54F21ABE7A400EAC2F8 /* MoneyGiver.swift in Sources */,
 				3F1FE54221ABE7A400EAC2F8 /* F.swift in Sources */,
 				3F1FE54E21ABE7A400EAC2F8 /* Stateable.swift in Sources */,
