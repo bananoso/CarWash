@@ -38,22 +38,22 @@ class WashService {
     }
     
     private func signObservers() {
+        weak var weakSelf = self
         let observers = self.observers
-        let washers = self.washers.value
         
-        observers += washers.map { washer in
-            washer.observer(property: .available) { [weak self] in
+        observers += self.washers.value.map { washer in
+            washer.observer(property: .available) {
                 switch $0 {
-                case .available: self?.cars.dequeue().apply(washer.asyncDoWork)
-                case .pendingProcessing: self?.accountant.asyncDoWork(with: washer)
+                case .available: weakSelf?.cars.dequeue().apply(washer.asyncDoWork)
+                case .pendingProcessing: weakSelf?.accountant.asyncDoWork(with: washer)
                 case .busy: return
                 }
             }
         }
         
-        let observer = self.accountant.observer(property: .available) { [weak self] in
+        let observer = self.accountant.observer(property: .available) {
             if $0 == .pendingProcessing {
-                (self?.accountant).apply(self?.director.asyncDoWork)
+                (weakSelf?.accountant).apply(weakSelf?.director.asyncDoWork)
             }
         }
         
