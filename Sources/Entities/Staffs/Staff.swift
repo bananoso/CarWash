@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Staff: MoneyReceiver, MoneyGiver, Stateable {
+class Staff: ObservableObject<Staff.State>, MoneyReceiver, MoneyGiver, Stateable {
     
     typealias StatePair = (old: State, new: State)
     
@@ -31,16 +31,16 @@ class Staff: MoneyReceiver, MoneyGiver, Stateable {
     
     private(set) var atomicState: Atomic<State>!
     
-    private let stateObservers = ObserverCollection<State>()
     private let atomicMoney = Atomic(0)
     
     init(name: String) {
         self.name = name
+        super.init()
         self.atomicState = Atomic(.available, didSet: self.didSet)
     }
     
     open func stateDidSet(_ state: StatePair) {
-        self.stateObservers.notify(value: state.new)
+        self.observers.notify(property: state.new)
     }
     
     // MoneyReceiver members
@@ -55,14 +55,6 @@ class Staff: MoneyReceiver, MoneyGiver, Stateable {
             
             return money
         }
-    }
-    
-    func observer(handler: @escaping F.EventHandler<State>) -> Observer<State> {
-        let observer = Observer(sender: self, handler: handler)
-        self.stateObservers.add(observer)
-        observer.handler(self.state)
-    
-        return observer
     }
     
     private func didSet(_ state: StatePair) {
