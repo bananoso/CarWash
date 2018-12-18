@@ -10,7 +10,7 @@ import Foundation
 
 extension ObservableObject {
     
-    class Observer: Hashable {
+    public class Observer: Hashable {
         
         public var isObserving: Bool {
             return self.sender != nil
@@ -28,7 +28,7 @@ extension ObservableObject {
             self.handler = handler
         }
         
-        func cancel() {
+        public func cancel() {
             self.sender = nil
         }
         
