@@ -127,6 +127,9 @@
 				3F1FE52421ABE7A400EAC2F8 /* Queue.swift */,
 				3F1FE52521ABE7A400EAC2F8 /* Atomic.swift */,
 				3F2D83E021C7CD6A00E32521 /* Weak.swift */,
+				3F60DDA521C39872002F2E2A /* ObservableObject.swift */,
+				3FFF6B5221C3EEE9003ADA0C /* ObservableObject+Observer.swift */,
+				3FFF6B5421C3EF21003ADA0C /* ObservableObject+Observers.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -135,8 +138,6 @@
 			isa = PBXGroup;
 			children = (
 				3F1FE52921ABE7A400EAC2F8 /* Foundation */,
-				3FFF6B5221C3EEE9003ADA0C /* ObservableObject+Observer.swift */,
-				3FFF6B5421C3EF21003ADA0C /* ObservableObject+Observers.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -171,7 +172,6 @@
 			children = (
 				3F1FE53821ABE7A400EAC2F8 /* CarFactory.swift */,
 				3F1FE53F21ABE7A400EAC2F8 /* WashService.swift */,
-				3F60DDA521C39872002F2E2A /* ObservableObject.swift */,
 				3F1FE53921ABE7A400EAC2F8 /* Staffs */,
 				3F1FE53621ABE7A400EAC2F8 /* Customers */,
 			);
