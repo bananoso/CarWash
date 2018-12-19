@@ -12,13 +12,19 @@ class ObservableObject<Property> {
     
     public typealias Handler = (Property) -> ()
     
-    public let observers = Observers()
+    private let observers = Observers()
     
-    public func observer(property: Property, handler: @escaping Handler) -> Observer {
+    public func observer(handler: @escaping Handler) -> Observer {
         let observer = Observer(sender: self, handler: handler)
         self.observers.add(observer)
-        observer.handler(property)
         
         return observer
+    }
+    
+    public func notify(property: Property) {
+        self.observers.modify {
+            $0 = $0.filter { $0.isObserving }
+            $0.forEach { $0.handler(property) }
+        }
     }
 }
