@@ -40,7 +40,7 @@ class Staff: ObservableObject<Staff.State>, MoneyReceiver, MoneyGiver, Stateable
     }
     
     open func stateDidSet(_ state: StatePair) {
-        self.observers.notify(property: state.new)
+        self.notify(property: state.new)
     }
     
     // MoneyReceiver members

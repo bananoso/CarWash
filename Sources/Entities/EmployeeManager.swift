@@ -8,27 +8,48 @@
 
 import Foundation
 
-class EmployeeManager<ProcessableObject, ProcessingObject> {
+protocol Processable {
     
-    private let processableObjects = [ProcessableObject]()
+    associatedtype ProcessingObject
+    
+    func process(object: ProcessingObject)
+}
+
+class EmployeeManager<ProcessableObject: Employee<ProcessingObject>, ProcessingObject: MoneyGiver>: ObservableObject<ProcessableObject> {
+    
+    private var observers = [ProcessableObject.Observer]()
+    
+    private let processableObjects: Atomic<[ProcessableObject]>
     private let processingObjects = Queue<ProcessingObject>()
     
+    init(processableObjects: [ProcessableObject]) {
+        self.processableObjects = Atomic(processableObjects)
+        super.init()
+        self.signObservers()
+    }
+    
     func asyncDoWork(with object: ProcessingObject) {
-        self.atomicState.modify {
-            if $0 == .available {
-                $0 = .busy
-                self.process(object: object)
-            } else {
-                self.processingObjects.enqueue(object)
-            }
+        self.processableObjects.transform {
+            $0.first { $0.state == .available }
+                .map { processableObject in
+                    let processingObject = self.processingObjects.dequeue() ?? object
+                    processableObject.process(object: processingObject)
+                }
+                .ifNil { self.processingObjects.enqueue(object) }
         }
     }
     
-//    self.nextProcessingObject()
-//    .map(self.process)
-//    .ifNil(self.finishWork)
-    
-    private func nextProcessingObject() -> ProcessingObject? {
-        return self.processingObjects.dequeue()
+    func signObservers() {
+        self.observers += self.processableObjects.value.map { object in
+            let observer = object.observer { [weak self, weak object] in
+                switch $0 {
+                case .available: self?.processingObjects.dequeue().apply(object?.process)
+                case .pendingProcessing: object.apply(self?.notify)
+                case .busy: return
+                }
+            }
+            
+            return observer
+        }
     }
 }

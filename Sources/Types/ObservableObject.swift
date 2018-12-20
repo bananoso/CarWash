@@ -22,9 +22,6 @@ class ObservableObject<Property> {
     }
     
     public func notify(property: Property) {
-        self.observers.modify {
-            $0 = $0.filter { $0.isObserving }
-            $0.forEach { $0.handler(property) }
-        }
+        self.observers.notify(property: property)
     }
 }

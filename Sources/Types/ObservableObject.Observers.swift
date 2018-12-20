@@ -18,8 +18,11 @@ extension ObservableObject {
             self.observers.modify { $0.append(observer) }
         }
         
-        static func += (lhs: Observers, rhs: Observers) {
-            lhs.observers.modify { $0 += rhs.observers.value }
+        public func notify(property: Property) {
+            self.observers.modify {
+                $0 = $0.filter { $0.isObserving }
+                $0.forEach { $0.handler(property) }
+            }
         }
     }
 }

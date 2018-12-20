@@ -10,11 +10,11 @@ import Foundation
 
 class Washer: Employee<Car> {
 
-    override func doWork(with car: Car) {
+    override func doWork(with car: ProcessingObject) {
         car.state = .clean
     }
     
-    override func finishProcessing(object: Car) {
+    override func finishProcessing(object: ProcessingObject) {
         self.receiveMoney(from: object)
     }
     

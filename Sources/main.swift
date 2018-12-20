@@ -9,10 +9,10 @@
 import Foundation
 
 let washers = (0...3).map { Washer(name: "Ivan\($0)") }
-let director = Director(name: "Petro")
-let accountant = Accountant(name: "Alex")
+let directors = [Director(name: "Petro")]
+let accountants = [Accountant(name: "Alex")]
 
-let washService = WashService(washers: washers, director: director, accountant: accountant)
+let washService = WashService(washers: washers, accountants: accountants, directors: directors)
 
 let factory = CarFactory(for: washService)
 factory.start()

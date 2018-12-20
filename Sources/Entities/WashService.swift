@@ -10,55 +10,20 @@ import Foundation
 
 class WashService {
     
-    private let washers: Atomic<[Washer]>
-    private let director: Director
-    private let accountant: Accountant
-    private let cars = Queue<Car>()
-    
-    private let observers = Staff.Observers()
-    
-    init(
-        washers: [Washer],
-        director: Director,
-        accountant: Accountant
-    ) {
-        self.washers = Atomic(washers)
-        self.director = director
-        self.accountant = accountant
+    private let washersManager: EmployeeManager<Washer, Car>
+    private let accountantManager: EmployeeManager<Accountant, Washer>
+    private let directorManager: EmployeeManager<Director, Accountant>
+
+    init(washers: [Washer], accountants: [Accountant], directors: [Director]) {
+        self.washersManager = EmployeeManager(processableObjects: washers)
+        self.accountantManager = EmployeeManager(processableObjects: accountants)
+        self.directorManager = EmployeeManager(processableObjects: directors)
         
-        self.signObservers()
+        self.washersManager.observer(handler: self.accountantManager.asyncDoWork)
+        self.accountantManager.observer(handler: self.directorManager.asyncDoWork)
     }
     
     func wash(car: Car) {
-        self.washers.transform {
-            $0.first { $0.state == .available }
-                .map { $0.asyncDoWork(with: car) }
-                .ifNil { self.cars.enqueue(car) }
-        }
-    }
-    
-    private func signObservers() {
-        weak var weakSelf = self
-        let observers = self.observers
-        
-        observers += self.washers.value.map { washer in
-            let observer = washer.observer(property: .available) { [weak washer] in
-                switch $0 {
-                case .available: weakSelf?.cars.dequeue().apply(washer?.asyncDoWork)
-                case .pendingProcessing: washer.apply(weakSelf?.accountant.asyncDoWork)
-                case .busy: return
-                }
-            }
-            
-            return observer
-        }
-        
-        let observer = self.accountant.observer(property: .available) {
-            if $0 == .pendingProcessing {
-                (weakSelf?.accountant).apply(weakSelf?.director.asyncDoWork)
-            }
-        }
-        
-        observers.add(observer)
+        self.washersManager.asyncDoWork(with: car)
     }
 }

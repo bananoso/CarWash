@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Employee<ProcessingObject: MoneyGiver>: Staff {
+class Employee<ProcessingObject: MoneyGiver>: Staff, Processable {
     
     private let rangeDuration = 0.1...1.0
     private let processingObjects = Queue<ProcessingObject>()
@@ -22,7 +22,7 @@ class Employee<ProcessingObject: MoneyGiver>: Staff {
     override func stateDidSet(_ state: StatePair) {
         if state.new == .available {
             self.processingObjects.dequeue()
-                .map(self.asyncDoWork)
+                .map(self.process)
                 .ifNil { super.stateDidSet(state) }
         } else {
             super.stateDidSet(state)
@@ -38,32 +38,19 @@ class Employee<ProcessingObject: MoneyGiver>: Staff {
     }
     
     open func finishWork() {
-        
+        self.state = .pendingProcessing
     }
     
-    func asyncDoWork(with object: ProcessingObject) {
+    func process(object: ProcessingObject) {
         self.atomicState.modify {
             if $0 == .available {
                 $0 = .busy
-                self.process(object: object)
-            } else {
-                self.processingObjects.enqueue(object)
+                self.dispatchQueue.asyncAfter(deadline: .after(interval: .random(in: self.rangeDuration))) {
+                    self.doWork(with: object)
+                    self.finishProcessing(object: object)
+                    self.finishWork()
+                }
             }
         }
-    }
-    
-    private func process(object: ProcessingObject) {
-        self.dispatchQueue.asyncAfter(deadline: .after(interval: .random(in: self.rangeDuration))) {
-            self.doWork(with: object)
-            self.finishProcessing(object: object)
-            
-            self.nextProcessingObject()
-                .map(self.process)
-                .ifNil(self.finishWork)
-        }
-    }
-    
-    private func nextProcessingObject() -> ProcessingObject? {
-        return self.processingObjects.dequeue()
     }
 }
