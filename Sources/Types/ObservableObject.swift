@@ -22,9 +22,29 @@ class ObservableObject<Property> {
     }
     
     public func notify(property: Property) {
-        self.observers.modify {
-            $0 = $0.filter { $0.isObserving }
-            $0.forEach { $0.handler(property) }
+        self.observers.notify(property: property)
+    }
+}
+
+extension ObservableObject {
+    
+    public class Observers {
+        
+        private let observers = Atomic([Observer]())
+        
+        public func add(_ observer: Observer) {
+            self.observers.modify { $0.append(observer) }
+        }
+        
+        fileprivate func notify(property: Property) {
+            self.observers.modify {
+                $0 = $0.filter { $0.isObserving }
+                $0.forEach { $0.handler(property) }
+            }
+        }
+        
+        static func += (lhs: Observers, rhs: Observers) {
+            lhs.observers.modify { $0 += rhs.observers.value }
         }
     }
 }
