@@ -10,7 +10,7 @@ import Foundation
 
 extension ObservableObject {
     
-    private class Observers {
+    class Observers {
         
         private let observers = Atomic([Observer]())
         
