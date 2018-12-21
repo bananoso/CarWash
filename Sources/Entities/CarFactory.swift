@@ -24,7 +24,6 @@ class CarFactory {
     deinit {
         print("Factory deinit")
         self.invalidate()
-        self.stop()
     }
     
     init(for service: WashService, queue: DispatchQueue = .background) {

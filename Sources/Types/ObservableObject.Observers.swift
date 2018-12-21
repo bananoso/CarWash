@@ -10,15 +10,15 @@ import Foundation
 
 extension ObservableObject {
     
-    public class Observers {
+    private class Observers {
         
         private let observers = Atomic([Observer]())
         
-        public func add(_ observer: Observer) {
+        func add(_ observer: Observer) {
             self.observers.modify { $0.append(observer) }
         }
         
-        public func notify(property: Property) {
+        func notify(property: Property) {
             self.observers.modify {
                 $0 = $0.filter { $0.isObserving }
                 $0.forEach { $0.handler(property) }

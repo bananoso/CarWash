@@ -16,7 +16,7 @@ class EmployeeManager<ProcessableObject: Employee<ProcessingObject>, ProcessingO
     private let processableObjects: Atomic<[ProcessableObject]>
     private let processingObjects = Queue<ProcessingObject>()
     
-    init(processableObjects: [ProcessableObject]) {
+    init(_ processableObjects: [ProcessableObject]) {
         self.processableObjects = Atomic(processableObjects)
         super.init()
         self.signObservers()
