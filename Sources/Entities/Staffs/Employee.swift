@@ -43,13 +43,11 @@ class Employee<ProcessingObject: MoneyGiver>: Staff, Processable {
     
     func process(object: ProcessingObject) {
         self.atomicState.modify {
-            if $0 == .available {
-                $0 = .busy
-                self.dispatchQueue.asyncAfter(deadline: .after(interval: .random(in: self.rangeDuration))) {
-                    self.doWork(with: object)
-                    self.finishProcessing(object: object)
-                    self.finishWork()
-                }
+            $0 = .busy
+            self.dispatchQueue.asyncAfter(deadline: .after(interval: .random(in: self.rangeDuration))) {
+                self.doWork(with: object)
+                self.finishProcessing(object: object)
+                self.finishWork()
             }
         }
     }

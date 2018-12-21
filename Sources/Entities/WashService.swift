@@ -10,20 +10,30 @@ import Foundation
 
 class WashService {
     
-    private let washersManager: EmployeeManager<Washer, Car>
-    private let accountantManager: EmployeeManager<Accountant, Washer>
-    private let directorManager: EmployeeManager<Director, Accountant>
+    private typealias WasherManager = EmployeeManager<Washer, Car>
+    private typealias AccountantManager = EmployeeManager<Accountant, Washer>
+    private typealias DirectorManager = EmployeeManager<Director, Accountant>
+    
+    private let washerManager: WasherManager
+    private let accountantManager: AccountantManager
+    private let directorManager: DirectorManager
 
+    private var washerObservers = [WasherManager.Observer]()
+    private var accountantObservers = [AccountantManager.Observer]()
+    
     init(washers: [Washer], accountants: [Accountant], directors: [Director]) {
-        self.washersManager = EmployeeManager(processableObjects: washers)
+        self.washerManager = EmployeeManager(processableObjects: washers)
         self.accountantManager = EmployeeManager(processableObjects: accountants)
         self.directorManager = EmployeeManager(processableObjects: directors)
         
-        self.washersManager.observer(handler: self.accountantManager.asyncDoWork)
-        self.accountantManager.observer(handler: self.directorManager.asyncDoWork)
+        let washerObserver = self.washerManager.observer(handler: self.accountantManager.asyncDoWork)
+        let accountantObserver = self.accountantManager.observer(handler: self.directorManager.asyncDoWork)
+        
+        self.washerObservers.append(washerObserver)
+        self.accountantObservers.append(accountantObserver)
     }
     
     func wash(car: Car) {
-        self.washersManager.asyncDoWork(with: car)
+        self.washerManager.asyncDoWork(with: car)
     }
 }

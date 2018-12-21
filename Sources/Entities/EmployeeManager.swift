@@ -8,14 +8,8 @@
 
 import Foundation
 
-protocol Processable {
-    
-    associatedtype ProcessingObject
-    
-    func process(object: ProcessingObject)
-}
-
-class EmployeeManager<ProcessableObject: Employee<ProcessingObject>, ProcessingObject: MoneyGiver>: ObservableObject<ProcessableObject> {
+class EmployeeManager<ProcessableObject: Employee<ProcessingObject>, ProcessingObject: MoneyGiver>:
+    ObservableObject<ProcessableObject> {
     
     private var observers = [ProcessableObject.Observer]()
     
