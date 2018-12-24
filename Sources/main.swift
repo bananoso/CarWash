@@ -14,11 +14,11 @@ let accountants = [Accountant(name: "Alex")]
 
 let washService = WashService(washers: washers, accountants: accountants, directors: directors)
 
-let factory = CarFactory(for: washService)
-factory.start()
+var factory: CarFactory? = CarFactory(for: washService)
+factory?.start()
 
-DispatchQueue.background.asyncAfter(deadline: .after(interval: 13.0)) {
-    factory.stop()
+DispatchQueue.background.asyncAfter(deadline: .after(interval: 25.0)) {
+    factory?.cancel()
 }
 
 RunLoop.current.run()

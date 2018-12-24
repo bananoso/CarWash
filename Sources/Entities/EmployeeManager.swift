@@ -11,8 +11,7 @@ import Foundation
 class EmployeeManager<ProcessableObject: Employee<ProcessingObject>, ProcessingObject: MoneyGiver>:
     ObservableObject<ProcessableObject> {
     
-    private var observers = [ProcessableObject.Observer]()
-    
+    private let observers = CompositCancellableProperty()
     private let processableObjects: Atomic<[ProcessableObject]>
     private let processingObjects = Queue<ProcessingObject>()
     
@@ -23,18 +22,15 @@ class EmployeeManager<ProcessableObject: Employee<ProcessingObject>, ProcessingO
     }
     
     func asyncDoWork(with object: ProcessingObject) {
+        self.processingObjects.enqueue(object)
         self.processableObjects.transform {
             $0.first { $0.state == .available }
-                .map { processableObject in
-                    let processingObject = self.processingObjects.dequeue() ?? object
-                    processableObject.process(object: processingObject)
-                }
-                .ifNil { self.processingObjects.enqueue(object) }
+                .do { self.processingObjects.dequeue().do($0.process) }
         }
     }
     
     func signObservers() {
-        self.observers += self.processableObjects.value.map { object in
+        self.observers.value = self.processableObjects.value.map { object in
             let observer = object.observer { [weak self, weak object] in
                 switch $0 {
                 case .available: self?.processingObjects.dequeue().apply(object?.process)

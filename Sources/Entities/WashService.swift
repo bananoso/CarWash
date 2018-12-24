@@ -10,16 +10,11 @@ import Foundation
 
 class WashService {
     
-    private typealias WasherManager = EmployeeManager<Washer, Car>
-    private typealias AccountantManager = EmployeeManager<Accountant, Washer>
-    private typealias DirectorManager = EmployeeManager<Director, Accountant>
-    
-    private let washerManager: WasherManager
-    private let accountantManager: AccountantManager
-    private let directorManager: DirectorManager
+    private let washerManager: EmployeeManager<Washer, Car>
+    private let accountantManager: EmployeeManager<Accountant, Washer>
+    private let directorManager: EmployeeManager<Director, Accountant>
 
-    private var washerObservers = [WasherManager.Observer]()
-    private var accountantObservers = [AccountantManager.Observer]()
+    private let observers = CompositCancellableProperty()
     
     init(washers: [Washer], accountants: [Accountant], directors: [Director]) {
         self.washerManager = EmployeeManager(washers)
@@ -37,7 +32,6 @@ class WashService {
         let washerObserver = self.washerManager.observer(handler: self.accountantManager.asyncDoWork)
         let accountantObserver = self.accountantManager.observer(handler: self.directorManager.asyncDoWork)
         
-        self.washerObservers.append(washerObserver)
-        self.accountantObservers.append(accountantObserver)
+        self.observers.value = [washerObserver, accountantObserver]
     }
 }

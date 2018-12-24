@@ -10,10 +10,14 @@ import Foundation
 
 extension ObservableObject {
     
-    public class Observer: Hashable {
-        
+    public class Observer: Hashable, Cancellable {
+
         public var isObserving: Bool {
             return self.sender != nil
+        }
+        
+        public var isCancelled: Bool {
+            return !self.isObserving
         }
         
         public var hashValue: Int {

@@ -34,6 +34,10 @@
 		3F33CB3D21CA830600BBE5E5 /* EmployeeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F33CB3C21CA830600BBE5E5 /* EmployeeManager.swift */; };
 		3F60DDA621C39872002F2E2A /* ObservableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F60DDA521C39872002F2E2A /* ObservableObject.swift */; };
 		3F710D8F21CCE9260052D77D /* Processable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F710D8E21CCE9260052D77D /* Processable.swift */; };
+		3F900DF921D0CD7600A93ED8 /* Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F900DF821D0CD7600A93ED8 /* Cancellable.swift */; };
+		3F900DFB21D0CE0800A93ED8 /* AbstractCancellableProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F900DFA21D0CE0800A93ED8 /* AbstractCancellableProperty.swift */; };
+		3FD3764221D0DEDD0060F449 /* CancellableProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD3764121D0DEDD0060F449 /* CancellableProperty.swift */; };
+		3FD3764421D0DEFA0060F449 /* CompositCancellableProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD3764321D0DEFA0060F449 /* CompositCancellableProperty.swift */; };
 		3FF0022A21C2471B00612D2D /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF0022921C2471B00612D2D /* Employee.swift */; };
 		3FFF6B5321C3EEE9003ADA0C /* ObservableObject.Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF6B5221C3EEE9003ADA0C /* ObservableObject.Observer.swift */; };
 		3FFF6B5521C3EF21003ADA0C /* ObservableObject.Observers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFF6B5421C3EF21003ADA0C /* ObservableObject.Observers.swift */; };
@@ -80,6 +84,10 @@
 		3F33CB3C21CA830600BBE5E5 /* EmployeeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeManager.swift; sourceTree = "<group>"; };
 		3F60DDA521C39872002F2E2A /* ObservableObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableObject.swift; sourceTree = "<group>"; };
 		3F710D8E21CCE9260052D77D /* Processable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Processable.swift; sourceTree = "<group>"; };
+		3F900DF821D0CD7600A93ED8 /* Cancellable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cancellable.swift; sourceTree = "<group>"; };
+		3F900DFA21D0CE0800A93ED8 /* AbstractCancellableProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractCancellableProperty.swift; sourceTree = "<group>"; };
+		3FD3764121D0DEDD0060F449 /* CancellableProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancellableProperty.swift; sourceTree = "<group>"; };
+		3FD3764321D0DEFA0060F449 /* CompositCancellableProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompositCancellableProperty.swift; sourceTree = "<group>"; };
 		3FF0022921C2471B00612D2D /* Employee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
 		3FFF6B5221C3EEE9003ADA0C /* ObservableObject.Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableObject.Observer.swift; sourceTree = "<group>"; };
 		3FFF6B5421C3EF21003ADA0C /* ObservableObject.Observers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableObject.Observers.swift; sourceTree = "<group>"; };
@@ -131,9 +139,8 @@
 				3F1FE52421ABE7A400EAC2F8 /* Queue.swift */,
 				3F1FE52521ABE7A400EAC2F8 /* Atomic.swift */,
 				3F2D83E021C7CD6A00E32521 /* Weak.swift */,
-				3F60DDA521C39872002F2E2A /* ObservableObject.swift */,
-				3FFF6B5221C3EEE9003ADA0C /* ObservableObject.Observer.swift */,
-				3FFF6B5421C3EF21003ADA0C /* ObservableObject.Observers.swift */,
+				3FD3764521D0DF250060F449 /* ObservableObject */,
+				3FD3764021D0DEC00060F449 /* CancellableProperty */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -168,6 +175,7 @@
 				3F1FE53421ABE7A400EAC2F8 /* MoneyGiver.swift */,
 				3F32553D21C8E5E100FF1C35 /* Weakifiable.swift */,
 				3F710D8E21CCE9260052D77D /* Processable.swift */,
+				3F900DF821D0CD7600A93ED8 /* Cancellable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -203,6 +211,26 @@
 				3F1FE53E21ABE7A400EAC2F8 /* Director.swift */,
 			);
 			path = Staffs;
+			sourceTree = "<group>";
+		};
+		3FD3764021D0DEC00060F449 /* CancellableProperty */ = {
+			isa = PBXGroup;
+			children = (
+				3F900DFA21D0CE0800A93ED8 /* AbstractCancellableProperty.swift */,
+				3FD3764121D0DEDD0060F449 /* CancellableProperty.swift */,
+				3FD3764321D0DEFA0060F449 /* CompositCancellableProperty.swift */,
+			);
+			path = CancellableProperty;
+			sourceTree = "<group>";
+		};
+		3FD3764521D0DF250060F449 /* ObservableObject */ = {
+			isa = PBXGroup;
+			children = (
+				3F60DDA521C39872002F2E2A /* ObservableObject.swift */,
+				3FFF6B5221C3EEE9003ADA0C /* ObservableObject.Observer.swift */,
+				3FFF6B5421C3EF21003ADA0C /* ObservableObject.Observers.swift */,
+			);
+			path = ObservableObject;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,6 +292,7 @@
 			files = (
 				3F1FE55721ABE7A400EAC2F8 /* WashService.swift in Sources */,
 				3F1FE55521ABE7A400EAC2F8 /* Аccountant.swift in Sources */,
+				3F900DF921D0CD7600A93ED8 /* Cancellable.swift in Sources */,
 				3F2D83E121C7CD6A00E32521 /* Weak.swift in Sources */,
 				3F1FE54F21ABE7A400EAC2F8 /* MoneyGiver.swift in Sources */,
 				3F1FE54221ABE7A400EAC2F8 /* F.swift in Sources */,
@@ -276,10 +305,13 @@
 				3F33CB3D21CA830600BBE5E5 /* EmployeeManager.swift in Sources */,
 				3F1FE54D21ABE7A400EAC2F8 /* MoneyReceiver.swift in Sources */,
 				3F1FE55121ABE7A400EAC2F8 /* CarFactory.swift in Sources */,
+				3FD3764221D0DEDD0060F449 /* CancellableProperty.swift in Sources */,
 				3F1FE54621ABE7A400EAC2F8 /* DispatchQueue+Extensions.swift in Sources */,
 				3F1FE54521ABE7A400EAC2F8 /* main.swift in Sources */,
+				3F900DFB21D0CE0800A93ED8 /* AbstractCancellableProperty.swift in Sources */,
 				3F1FE55421ABE7A400EAC2F8 /* Staff.swift in Sources */,
 				3F32553E21C8E5E100FF1C35 /* Weakifiable.swift in Sources */,
+				3FD3764421D0DEFA0060F449 /* CompositCancellableProperty.swift in Sources */,
 				3F1FE54821ABE7A400EAC2F8 /* DispatchTime+Extensions.swift in Sources */,
 				3F710D8F21CCE9260052D77D /* Processable.swift in Sources */,
 				3F1FE55321ABE7A400EAC2F8 /* Washer.swift in Sources */,

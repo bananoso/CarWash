@@ -8,10 +8,14 @@
 
 import Foundation
 
-class CarFactory {
+class CarFactory: Cancellable {
 
     var isRuning: Bool {
         return self.timer != nil
+    }
+    
+    var isCancelled: Bool {
+        return !self.isRuning
     }
     
     private var timer: Timer? {
@@ -41,7 +45,7 @@ class CarFactory {
         }
     }
     
-    func stop() {
+    func cancel() {
         self.timer = nil
     }
     
